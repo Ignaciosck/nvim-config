@@ -39,3 +39,16 @@ if (Test-Path $nvimConfigPath) {
 } else {
     git clone https://github.com/<tu_usuario>/nvim-config.git $nvimConfigPath
 }
+
+# Obtener el PATH actual del usuario o del sistema
+$currentUserPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::User)
+$systemPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::Machine)
+
+# La ruta que quieres añadir
+$newPath = "$env:LOCALAPPDATA\nvim-data\mason\bin"
+
+if (-not $systemPath.Contains($newPath)) {
+    $updatedSystemPath = $systemPath + ";" + $newPath
+   [Environment]::SetEnvironmentVariable("Path", $updatedSystemPath, [EnvironmentVariableTarget]::Machine)
+}
+
