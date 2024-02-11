@@ -2,7 +2,9 @@ $packages = @(
     @{id="Git.Git"; name="Git"},
     @{id="OpenJS.NodeJS"; name="Node.js"},
     @{id="Python.Python.3"; name="Python"},
-    @{id="Neovim.Neovim"; name="Neovim"}
+    @{id="Neovim.Neovim"; name="Neovim"},
+    @{id=" Microsoft.WindowsTerminal"; name="Windows Terminal"}
+   
 )
 
 foreach ($package in $packages) {
