@@ -1,5 +1,13 @@
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+# Set the execution policy to Unrestricted for this session
+Set-ExecutionPolicy Unrestricted -Scope Process -Force
 
+# Configure the security protocol
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+
+# Install Chocolatey
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+# Define the packages to install
 $packages = @(
     @{id="git"; name="Git"},
     @{id="nodejs"; name="Node.js"},
@@ -9,6 +17,7 @@ $packages = @(
     @{id="microsoft-windows-terminal"; name="Windows Terminal"}
 )
 
+# Install the packages using Chocolatey
 foreach ($package in $packages) {
     $isInstalled = choco list --local-only | Select-String "$($package.id)"
     if ($isInstalled) {
@@ -19,10 +28,10 @@ foreach ($package in $packages) {
     }
 }
 
+# Check and report on the installation of Python and pip
 $pythonInstalled = Get-Command python -ErrorAction SilentlyContinue
 if ($pythonInstalled) {
     Write-Output "Python installed."
-    # Verificar la instalación de pip
     $pipInstalled = python -m pip -V
     if ($pipInstalled) {
         Write-Output "pip is available"
@@ -33,6 +42,7 @@ if ($pythonInstalled) {
     Write-Error "Couldn't install Python"
 }
 
+# Clone Neovim configuration if it doesn't exist
 $nvimConfigPath = "$env:LOCALAPPDATA\nvim"
 if (Test-Path $nvimConfigPath) {
     Write-Output "Folder already exists: $nvimConfigPath"
@@ -40,13 +50,13 @@ if (Test-Path $nvimConfigPath) {
     git clone https://github.com/Ignaciosck/nvim-config.git $nvimConfigPath
 }
 
-
+# Update the Path environment variable
 $currentUserPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::User)
 $systemPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::Machine)
-
 $newPath = "$env:LOCALAPPDATA\nvim-data\mason\bin"
 
 if (-not $systemPath.Contains($newPath)) {
     $updatedSystemPath = $systemPath + ";" + $newPath
     [Environment]::SetEnvironmentVariable("Path", $updatedSystemPath, [EnvironmentVariableTarget]::Machine)
 }
+
