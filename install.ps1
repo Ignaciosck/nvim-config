@@ -39,7 +39,7 @@ $nvimConfigPath = "$env:LOCALAPPDATA\nvim"
 if (Test-Path $nvimConfigPath) {
     Write-Output "Folder already exists: $nvimConfigPath"
 } else {
-    git clone https://github.com/<tu_usuario>/nvim-config.git $nvimConfigPath
+    git clone https://github.com/Ignaciosck/nvim-config.git $nvimConfigPath
 }
 
 # Obtener el PATH actual del usuario o del sistema
