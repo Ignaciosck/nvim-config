@@ -1,39 +1,37 @@
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
 $packages = @(
-    @{id="Git.Git"; name="Git"},
-    @{id="OpenJS.NodeJS"; name="Node.js"},
-    @{id="Python.Python.3"; name="Python"},
-    @{id="Neovim.Neovim"; name="Neovim"},
-    @{id=" Microsoft.WindowsTerminal"; name="Windows Terminal"}
-   
+    @{id="git"; name="Git"},
+    @{id="nodejs"; name="Node.js"},
+    @{id="python3"; name="Python"},
+    @{id="neovim"; name="Neovim"},
+    @{id="mingw"; name="MinGW"},
+    @{id="microsoft-windows-terminal"; name="Windows Terminal"}
 )
 
 foreach ($package in $packages) {
-    $isInstalled = winget list --id $package.id -e | Out-String
-    if ($isInstalled -match $package.name) {
+    $isInstalled = choco list --local-only | Select-String "$($package.id)"
+    if ($isInstalled) {
         Write-Output "$($package.name) is already installed."
     } else {
         Write-Output "Installing $($package.name)..."
-        winget install --id $package.id -e --silent
-
+        choco install $($package.id) -y
     }
 }
 
-# Verificación post-instalación para Python y pip
 $pythonInstalled = Get-Command python -ErrorAction SilentlyContinue
 if ($pythonInstalled) {
     Write-Output "Python installed."
     # Verificar la instalación de pip
     $pipInstalled = python -m pip -V
     if ($pipInstalled) {
-        Write-Output "pip is avaiable"
+        Write-Output "pip is available"
     } else {
-        Write-Error "pip is not avaiable."
+        Write-Error "pip is not available."
     }
 } else {
     Write-Error "Couldn't install Python"
 }
-
-
 
 $nvimConfigPath = "$env:LOCALAPPDATA\nvim"
 if (Test-Path $nvimConfigPath) {
@@ -42,15 +40,13 @@ if (Test-Path $nvimConfigPath) {
     git clone https://github.com/Ignaciosck/nvim-config.git $nvimConfigPath
 }
 
-# Obtener el PATH actual del usuario o del sistema
+
 $currentUserPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::User)
 $systemPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::Machine)
 
-# La ruta que quieres añadir
 $newPath = "$env:LOCALAPPDATA\nvim-data\mason\bin"
 
 if (-not $systemPath.Contains($newPath)) {
     $updatedSystemPath = $systemPath + ";" + $newPath
-   [Environment]::SetEnvironmentVariable("Path", $updatedSystemPath, [EnvironmentVariableTarget]::Machine)
+    [Environment]::SetEnvironmentVariable("Path", $updatedSystemPath, [EnvironmentVariableTarget]::Machine)
 }
-
