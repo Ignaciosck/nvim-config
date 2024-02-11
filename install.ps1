@@ -1,3 +1,10 @@
+function Refresh-EnvironmentPath {
+    $pathFromSystem = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+    $pathFromUser = [System.Environment]::GetEnvironmentVariable("Path", "User")
+    $combinedPath = $pathFromSystem + ";" + $pathFromUser
+    [System.Environment]::SetEnvironmentVariable("Path", $combinedPath, "Process")
+}
+
 # Set the execution policy to Unrestricted for this session
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
 
@@ -33,6 +40,7 @@ $nvimConfigPath = "$env:LOCALAPPDATA\nvim"
 if (Test-Path $nvimConfigPath) {
     Write-Output "Folder already exists: $nvimConfigPath"
 } else {
+    Refresh-EnvironmentPath
     git clone https://github.com/Ignaciosck/nvim-config.git $nvimConfigPath
 }
 
