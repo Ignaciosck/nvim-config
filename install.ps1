@@ -14,9 +14,9 @@ Set-ExecutionPolicy Unrestricted -Scope Process -Force
 # Install Chocolatey
 iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-# Define the packages to install
+# Define the packages to install with optional installation parameters
 $packages = @(
-    @{id="git --params "'/NoShellIntegration /NoAutoCrlf'""; name="Git"},
+    @{id="git"; name="Git"; params='/NoShellIntegration /NoAutoCrlf'},
     @{id="nodejs"; name="Node.js"},
     @{id="python3"; name="Python"},
     @{id="neovim"; name="Neovim"},
@@ -31,9 +31,14 @@ foreach ($package in $packages) {
         Write-Output "$($package.name) is already installed."
     } else {
         Write-Output "Installing $($package.name)..."
-        choco install $($package.id) -y
+        $installCommand = "choco install $($package.id) -y"
+        if ($package.params) {
+            $installCommand += " --params=" + [System.Management.Automation.LanguagePrimitives]::ConvertTo($package.params, [string])
+        }
+        Invoke-Expression $installCommand
     }
 }
+
 # Check and report on the installation of Python and pip
 $pythonInstalled = Get-Command python -ErrorAction SilentlyContinue
 if ($pythonInstalled) {
