@@ -38,6 +38,7 @@ foreach ($package in $packages) {
         Invoke-Expression $installCommand
     }
 }
+Refresh-EnvironmentPath
 
 # Check and report on the installation of Python and pip
 $pythonInstalled = Get-Command python -ErrorAction SilentlyContinue
@@ -58,7 +59,6 @@ $nvimConfigPath = "$env:LOCALAPPDATA\nvim"
 if (Test-Path $nvimConfigPath) {
     Write-Output "Folder already exists: $nvimConfigPath"
 } else {
-    Refresh-EnvironmentPath
     git clone https://github.com/Ignaciosck/nvim-config.git $nvimConfigPath
 }
 
