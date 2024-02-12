@@ -16,7 +16,7 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocola
 
 # Define the packages to install
 $packages = @(
-    @{id="git"; name="Git"},
+    @{id="git --params "'/NoShellIntegration /NoAutoCrlf'""; name="Git"},
     @{id="nodejs"; name="Node.js"},
     @{id="python3"; name="Python"},
     @{id="neovim"; name="Neovim"},
