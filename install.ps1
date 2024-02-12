@@ -15,8 +15,9 @@ Set-ExecutionPolicy Unrestricted -Scope Process -Force
 iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
 # Define the packages to install with optional installation parameters
+# Define the packages to install with optional installation parameters
 $packages = @(
-    @{id="git"; name="Git"; params='/NoShellIntegration /NoAutoCrlf'},
+    @{id="git.install"; name="Git"; params="/NoShellIntegration /NoAutoCrlf"},
     @{id="nodejs"; name="Node.js"},
     @{id="python3"; name="Python"},
     @{id="neovim"; name="Neovim"},
@@ -31,10 +32,9 @@ foreach ($package in $packages) {
         Write-Output "$($package.name) is already installed."
     } else {
         Write-Output "Installing $($package.name)..."
-        $installCommand = "choco install $($package.id) -y"
-        if ($package.params) {
-            $installCommand += " --params=" + [System.Management.Automation.LanguagePrimitives]::ConvertTo($package.params, [string])
-        }
+        $params = if ($package.params) { "--params=`"$($package.params)`"" } else { "" }
+        $installCommand = "choco install $($package.id) -y $params"
+        Write-Output "Running: $installCommand"
         Invoke-Expression $installCommand
     }
 }
@@ -71,4 +71,3 @@ if (-not $systemPath.Contains($newPath)) {
     $updatedSystemPath = $systemPath + ";" + $newPath
     [Environment]::SetEnvironmentVariable("Path", $updatedSystemPath, [EnvironmentVariableTarget]::Machine)
 }
-
