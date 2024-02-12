@@ -34,6 +34,19 @@ foreach ($package in $packages) {
         choco install $($package.id) -y
     }
 }
+# Check and report on the installation of Python and pip
+$pythonInstalled = Get-Command python -ErrorAction SilentlyContinue
+if ($pythonInstalled) {
+    Write-Output "Python installed."
+    $pipInstalled = python -m pip -V
+    if ($pipInstalled) {
+        Write-Output "pip is available"
+    } else {
+        Write-Error "pip is not available."
+    }
+} else {
+    Write-Error "Couldn't install Python"
+}
 
 # Clone Neovim configuration if it doesn't exist
 $nvimConfigPath = "$env:LOCALAPPDATA\nvim"
