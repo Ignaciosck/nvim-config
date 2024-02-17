@@ -3,11 +3,11 @@ return {
 	config = function()
 		require("Comment").setup({
 			opleader = {
-				line = "<C-_>",
+				line = "<c-_>",
 				block = "gb",
 			},
 			toggler = {
-				line = "<C-_>",
+				line = "<c-_>",
 				block = "cb",
 			},
 			extra = {

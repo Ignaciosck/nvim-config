@@ -5,6 +5,9 @@ return {
 			options = {
 				theme = "catppuccin-frappe",
 			},
+			sections = {
+				lualine_a = { "buffers" },
+			},
 		})
 	end,
 }

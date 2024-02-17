@@ -1,3 +1,4 @@
+vim.loader.enable()
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -13,8 +14,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 vim.diagnostic.config({
-	update_in_insert = true, -- Habilita la actualización de diagnósticos en modo insertar
-	virtual_text = true, -- Muestra texto virtual de diagnósticos al lado de la línea
+	update_in_insert = false, -- Habilita la actualización de diagnósticos en modo insertar
+	virtual_text = false, -- Muestra texto virtual de diagnósticos al lado de la línea
 	signs = true, -- Muestra signos en el número de línea
 	underline = true, -- Subraya el texto con diagnósticos
 	severity_sort = true, -- Ordena los diagnósticos por severidad
