@@ -22,6 +22,7 @@ $packages = @(
     @{id="python3"; name="Python"},
     @{id="neovim"; name="Neovim"},
     @{id="mingw"; name="MinGW"},
+    @{id="firacodenf"; name="Fira Code Nerd Font"},
     @{id="microsoft-windows-terminal"; name="Windows Terminal"}
 )
 
