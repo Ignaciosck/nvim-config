@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 local map = vim.api.nvim_set_keymap
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
+vim.opt.clipboard = "unnamedplus"
 vim.opt.fileformat = "unix"
 local opts = { noremap = true, silent = true }
 vim.opt.ignorecase = true
@@ -29,6 +30,10 @@ vim.opt.shellxquote = ""
 map("n", "<Space>ve", ":vsplit $MYVIMRC<CR>", opts) -- Abre la configuración en un split vertical
 map("n", "<Space>vs", "<cmd>vsplit<CR>", opts) -- Recarga la configuración
 -- Navigate vim panes better
+
+vim.keymap.set("n", "<C-c>", "<cmd>yank<CR>", opts)
+vim.keymap.set("v", "<C-c>", "<cmd>yank<CR>", opts)
+vim.keymap.set("i", "<C-c>", "<cmd>yank<CR>", opts)
 vim.keymap.set("n", "<M-Up>", ":wincmd k<CR>", opts)
 vim.keymap.set("n", "<M-Down>", ":wincmd j<CR>", opts)
 vim.keymap.set("n", "<M-Left>", ":wincmd h<CR>", opts)
@@ -43,5 +48,4 @@ vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>")
 vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>")
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>")
 vim.wo.number = true
-vim.opt.clipboard = "unnamedplus"
 vim.wo.wrap = true -- Desactiva el ajuste de texto si prefieres des
