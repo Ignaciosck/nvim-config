@@ -28,6 +28,10 @@ return {
 			"nvim-telescope/telescope.nvim",
 			tag = "0.1.5",
 			dependencies = {
+				{
+					"nvim-telescope/telescope-fzf-native.nvim",
+					build = "make",
+				},
 				"nvim-lua/plenary.nvim",
 				"debugloop/telescope-undo.nvim",
 				"nvim-telescope/telescope-live-grep-args.nvim",
@@ -35,6 +39,13 @@ return {
 			config = function()
 				require("telescope").setup({
 					extensions = {
+						fzf = {
+							fuzzy = true, -- false will only do exact matching
+							override_generic_sorter = true, -- override the generic sorter
+							override_file_sorter = true, -- override the file sorter
+							case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+							-- the default case_mode is "smart_case"
+						},
 						["ui-select"] = {
 							require("telescope.themes").get_dropdown({}),
 						},
@@ -77,6 +88,7 @@ return {
 				vim.keymap.set("n", "<Space>tu", "<cmd>Telescope undo<CR>", { desc = "UndoTree" })
 				vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep_args<CR>", { desc = "Live Grep" })
 				require("telescope").load_extension("ui-select")
+				require("telescope").load_extension("fzf")
 				require("telescope").load_extension("advanced_git_search")
 				require("telescope").load_extension("live_grep_args")
 				require("telescope").load_extension("advanced_git_search")

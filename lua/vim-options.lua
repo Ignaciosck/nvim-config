@@ -13,18 +13,18 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
-vim.opt.foldnestmax = 1
 vim.opt.signcolumn = "yes"
 --vim.opt.undo = true
 vim.opt.undofile = true
 -- vim.opt.shell = "powershell"
-vim.opt.shell = vim.fn.executable("pwsh") and "pwsh" or "powershell"
+vim.opt.shell = "powershell.exe"
 vim.opt.shellcmdflag =
-	"-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+	" -NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
 vim.opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
 vim.opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
 vim.opt.shellquote = ""
 vim.opt.shellxquote = ""
+vim.opt.swapfile = false
 -- vim.g.mapleader = ' '  -- Establece el espacio como la tecla <leader>
 -- Mapeos de ejemplo
 map("n", "<Space>ve", ":vsplit $MYVIMRC<CR>", opts) -- Abre la configuración en un split vertical

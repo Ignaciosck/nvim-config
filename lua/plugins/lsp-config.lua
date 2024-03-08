@@ -57,11 +57,11 @@ return {
 							prefix = "",
 							-- scope = "cursor",
 						}
-						vim.diagnostic.open_float(nil, opts1)
+						-- vim.diagnostic.open_float(nil, opts1)
 					end,
 				})
 				opts.desc = "Show LSP implementations"
-				vim.keymap.set("n", "<Space>gi", "<cmd>Telescope lsp_implementations<CR>", opts)
+				vim.keymap.set("n", "<Space>gi", "<cmd>Telescope lsp_implementations bufnr=0<CR>", opts)
 				opts.desc = "Show LSP type definitions"
 				vim.keymap.set("n", "<Space>gD", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 				opts.desc = "Show LSP definitions"
