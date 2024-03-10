@@ -1,6 +1,9 @@
+local gitHydra = require("plugins.hydras.git")
+local optionsHydra = require("plugins.hydras.options-hydra")
 return {
 	"folke/which-key.nvim",
 	lazy = false,
+
 	config = function()
 		-- Configuración general de which-key
 		require("which-key").setup({
@@ -14,6 +17,28 @@ return {
 			},
 
 			-- ["ca"] = { "<cmd>Lspsaga code_action<CR>", "Acción de código LSP" },
+			h = {
+				name = "+Hydras",
+				g = {
+					function()
+						gitHydra() -- Esta es la función que define tu Hydra.
+					end,
+					"Activate Git Hydra",
+				},
+				o = {
+					function()
+						optionsHydra()
+					end,
+					"Activate Options Hydra",
+				},
+				r = {
+					function()
+						require("plugins.hydras.resize-windows")()
+					end,
+					"Activate Resize Windows Hydra",
+				},
+			},
+
 			b = {
 				name = "+Buffers",
 				d = { "<cmd>bd<CR>", "Cerrar buffer" },
@@ -38,7 +63,6 @@ return {
 				-- r = { "<cmd>Telescope lsp_references<CR>", "Eliminar marca" },
 			},
 			q = { "<cmd>q<CR>", "Cerrar" },
-			h = { "<cmd>nohlsearch<CR>", "Ocultar búsqueda" },
 			["<M-Up>"] = { "<cmd>wincmd k<CR>", "Moverse arriba en paneles" },
 			["<M-Down>"] = { "<cmd>wincmd j<CR>", "Moverse abajo en paneles" },
 			["<M-Left>"] = { "<cmd>wincmd h<CR>", "Moverse a la izquierda en paneles" },

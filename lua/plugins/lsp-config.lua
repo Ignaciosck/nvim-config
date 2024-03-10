@@ -88,7 +88,7 @@ return {
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 				-- vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
 				opts.desc = "Show LSP code actions"
-				vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
+				vim.keymap.set({ "n", "v" }, "<space>ca", "<CMD>Lspsaga code_action<CR>", opts)
 				opts.desc = "Show LSP references"
 				vim.keymap.set("n", "gR", "<cmd>Lspsaga finder tyd+ref+def<CR>", opts)
 			end
@@ -123,7 +123,17 @@ return {
 	{
 		"nvimdev/lspsaga.nvim",
 		config = function()
-			require("lspsaga").setup({})
+			require("lspsaga").setup({
+				code_action_prompt = {
+					enable = false,
+					sign = false,
+					sign_priority = 20,
+					virtual_text = false,
+				},
+				ui = {
+					code_action = "",
+				},
+			})
 		end,
 	},
 	-- ola
