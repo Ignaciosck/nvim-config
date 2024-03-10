@@ -21,19 +21,19 @@ return {
 				name = "+Hydras",
 				g = {
 					function()
-						gitHydra() -- Esta es la función que define tu Hydra.
+						gitHydra:activate() -- Esta es la función que define tu Hydra.
 					end,
 					"Activate Git Hydra",
 				},
 				o = {
 					function()
-						optionsHydra()
+						optionsHydra:activate()
 					end,
 					"Activate Options Hydra",
 				},
 				r = {
 					function()
-						require("plugins.hydras.resize-windows")()
+						require("plugins.hydras.resize-windows"):activate()
 					end,
 					"Activate Resize Windows Hydra",
 				},
