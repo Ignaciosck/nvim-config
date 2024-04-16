@@ -2,7 +2,7 @@ local Hydra = require("hydra")
 local optionsHydra = Hydra({
 	name = "Options",
 	hint = [[
-  ^ ^        Options
+  ^ ^        
   ^
   _v_ %{ve} virtual edit
   _i_ %{list} invisible characters  
@@ -19,8 +19,13 @@ local optionsHydra = Hydra({
 		color = "amaranth",
 		invoke_on_body = true,
 		hint = {
-			border = "rounded",
 			position = "middle",
+			float_opts = {
+				-- row, col, height, width, relative, and anchor should not be
+				-- overridden
+				border = "rounded",
+				title = "Options Hydra",
+			},
 		},
 	},
 	mode = { "n", "x" },

@@ -16,6 +16,7 @@ return {
 			svelte = { "eslint" },
 			python = { "pylint" },
 			markdown = { "markdownlint" },
+			-- cpp = { "sonarlint-language-server" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

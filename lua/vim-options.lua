@@ -8,6 +8,7 @@ local opts = { noremap = true, silent = true }
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.incsearch = true
+vim.o.mousemoveevent = true
 vim.opt.hlsearch = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -16,6 +17,7 @@ vim.opt.expandtab = true
 vim.opt.signcolumn = "yes"
 --vim.opt.undo = true
 vim.opt.undofile = true
+vim.g.mkdp_auto_start = 1
 -- vim.opt.shell = "powershell"
 vim.opt.shell = "powershell.exe"
 vim.opt.shellcmdflag =
@@ -39,7 +41,7 @@ vim.keymap.set("n", "<M-Down>", ":wincmd j<CR>", opts)
 vim.keymap.set("n", "<M-Left>", ":wincmd h<CR>", opts)
 vim.keymap.set("n", "<M-Right>", ":wincmd l<CR>", opts)
 vim.keymap.set("n", "<Space>q", ":q<CR>")
--- vim.keymap.set("n", "<Space>h", ":nohlsearch<CR>", opts)
+vim.keymap.set("n", "<Space>h", ":nohlsearch<CR>", opts)
 vim.keymap.set("i", "<c-s>", "<Esc>:w<CR>gi")
 vim.keymap.set("n", "<c-s>", ":w<CR>")
 

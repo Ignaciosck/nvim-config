@@ -20,7 +20,17 @@ Other:
 		color = "pink",
 		invoke_on_body = true,
 		hint = {
-			border = "rounded",
+			type = "window",
+			offset = 0, -- Posición del hint
+			float_opts = {
+				-- row, col, height, width, relative, and anchor should not be
+				-- overridden
+				-- style = "statusline",
+				border = "rounded",
+				title = "Window Manager Hydra",
+				focusable = false,
+				noautocmd = true,
+			},
 			-- Texto del hint
 		},
 	},

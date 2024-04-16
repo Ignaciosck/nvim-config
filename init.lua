@@ -21,6 +21,7 @@ vim.diagnostic.config({
 	severity_sort = true, -- Ordena los diagnósticos por severidad
 })
 require("vim-options")
+
 require("lazy").setup("plugins")
 -- Example using a list of specs with the default options
 --vim.api.nvim_create_autocmd("BufWritePre", {

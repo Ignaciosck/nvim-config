@@ -1,6 +1,8 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	lazy = false,
+	dependencies = { "AndreM222/copilot-lualine" },
+
 	config = function()
 		local lazy_status = require("lazy.status") -- to configure lazy pending updates count
 		local hydra_status = require("hydra.statusline")
@@ -50,6 +52,7 @@ return {
 					},
 				},
 				lualine_x = {
+					{ "copilot" },
 					{
 						lazy_status.updates,
 						cond = lazy_status.has_updates,
@@ -68,7 +71,7 @@ return {
 					{ "diff" },
 					{ "diagnostics" },
 				},
-				lualine_c = { "filename" },
+				lualine_c = { "filename", "fileformat", "filetype" },
 
 				lualine_y = {
 					{

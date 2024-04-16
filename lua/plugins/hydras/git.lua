@@ -14,7 +14,17 @@ local gitHydra = Hydra({
 		color = "pink",
 		invoke_on_body = true,
 		hint = {
-			border = "rounded",
+			type = "window",
+			offset = 0, -- Posición del hint
+			float_opts = {
+				-- row, col, height, width, relative, and anchor should not be
+				-- overridden
+				border = "rounded",
+				title = "Neogit Hydra",
+				focusable = false,
+				noautocmd = true,
+			},
+			-- Texto del hint
 		},
 		on_enter = function()
 			vim.b.hydra_bg_color = "#F1502F" -- Asigna aquí el color de fondo para esta Hydra

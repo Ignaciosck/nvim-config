@@ -19,6 +19,9 @@ return {
 					"pylint",
 					"markdownlint",
 					"marksman",
+					-- "clangd",
+					"sonarlint-language-server",
+					-- "clang-format",
 				},
 			})
 		end,
@@ -39,27 +42,34 @@ return {
 		"neovim/nvim-lspconfig",
 		lazy = false,
 		config = function()
-			local opts = { noremap = true, silent = true }
+			local opts = { noremap = true, silent = false }
 			local lspconfig = require("lspconfig")
+			local mason_lspconfig = require("mason-lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			capabilities.offsetEncoding = "utf-8"
 			local on_attach = function(client, bufnr)
 				-- Definir opciones para keymaps
-
+				-- require("lsp_signature").on_attach({
+				-- 	bind = true, -- This is mandatory, otherwise border config won't get registered.
+				-- 	handler_opts = {
+				-- 		border = "rounded",
+				-- 	},
+				-- }, bufnr)
 				vim.o.updatetime = 250
-				vim.api.nvim_create_autocmd("CursorHold", {
-					buffer = bufnr,
-					callback = function()
-						local opts1 = {
-							focusable = false,
-							close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-							border = "rounded",
-							source = "always",
-							prefix = "",
-							-- scope = "cursor",
-						}
-						-- vim.diagnostic.open_float(nil, opts1)
-					end,
-				})
+				-- vim.api.nvim_create_autocmd("CursorHold", {
+				-- 	buffer = bufnr,
+				-- 	callback = function()
+				-- 		local opts1 = {
+				-- 			focusable = false,
+				-- 			close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+				-- 			border = "rounded",
+				-- 			source = "always",
+				-- 			prefix = "",
+				-- 			-- scope = "cursor",
+				-- 		}
+				-- 		-- vim.diagnostic.open_float(nil, opts1)
+				-- 	end,
+				-- })
 				opts.desc = "Show LSP implementations"
 				vim.keymap.set("n", "<Space>gi", "<cmd>Telescope lsp_implementations bufnr=0<CR>", opts)
 				opts.desc = "Show LSP type definitions"
@@ -88,30 +98,50 @@ return {
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 				-- vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
 				opts.desc = "Show LSP code actions"
-				vim.keymap.set({ "n", "v" }, "<space>ca", "<CMD>Lspsaga code_action<CR>", opts)
+				vim.keymap.set({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", opts)
 				opts.desc = "Show LSP references"
 				vim.keymap.set("n", "gR", "<cmd>Lspsaga finder tyd+ref+def<CR>", opts)
 			end
-			lspconfig["tsserver"].setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
+
+			mason_lspconfig.setup_handlers({
+				function(server_name)
+					if server_name ~= "jdtls" or "clangd" then
+						require("lspconfig")[server_name].setup({
+							capabilities = capabilities,
+							on_attach = on_attach,
+						})
+						if server_name == "clangd" then
+							require("lspconfig")[server_name].setup({
+								capabilities = capabilities,
+								on_attach = on_attach,
+								cmd = { "clangd", "--query-driver=C:/ProgramData/mingw64/mingw64/bin/g++.exe" },
+							})
+						end
+					end
+				end,
 			})
-			lspconfig.html.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-			})
-			lspconfig.lua_ls.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-			})
-			lspconfig.pyright.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-			})
-			lspconfig.marksman.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-			})
+
+			-- lspconfig["tsserver"].setup({
+			-- 	capabilities = capabilities,
+			-- 	on_attach = on_attach,
+			-- })
+			-- lspconfig.html.setup({
+			-- 	capabilities = capabilities,
+			-- 	on_attach = on_attach,
+			-- })
+			-- lspconfig.lua_ls.setup({
+			-- 	capabilities = capabilities,
+			-- 	on_attach = on_attach,
+			-- })
+			-- lspconfig.pyright.setup({
+			-- 	capabilities = capabilities,
+			-- 	on_attach = on_attach,
+			-- })
+			-- lspconfig.marksman.setup({
+			-- 	capabilities = capabilities,
+			-- 	on_attach = on_attach,
+			-- })
+			--
 		end,
 	},
 	-- {
@@ -146,5 +176,71 @@ return {
 		opts = {
 			-- your options go here
 		},
+	},
+	{
+		"onsails/lspkind.nvim",
+		config = function()
+			require("lspkind").init({
+				-- DEPRECATED (use mode instead): enables text annotations
+				--
+				-- default: true
+				-- with_text = true,
+
+				-- defines how annotations are shown
+				-- default: symbol
+				-- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+				mode = "symbol_text",
+
+				-- default symbol map
+				-- can be either 'default' (requires nerd-fonts font) or
+				-- 'codicons' for codicon preset (requires vscode-codicons font)
+				--
+				-- default: 'default'
+				preset = "codicons",
+
+				-- override preset symbols
+				--
+				-- default: {}
+				symbol_map = {
+					Text = "󰉿",
+					Method = "󰆧",
+					Function = "󰊕",
+					Constructor = "",
+					Field = "󰜢",
+					Variable = "󰀫",
+					Class = "󰠱",
+					Interface = "",
+					Module = "",
+					Property = "󰜢",
+					Unit = "󰑭",
+					Value = "󰎠",
+					Enum = "",
+					Keyword = "󰌋",
+					Snippet = "",
+					Color = "󰏘",
+					File = "󰈙",
+					Reference = "󰈇",
+					Folder = "󰉋",
+					EnumMember = "",
+					Constant = "󰏿",
+					Struct = "󰙅",
+					Event = "",
+					Operator = "󰆕",
+					TypeParameter = "",
+				},
+			})
+		end,
+	},
+	{
+		"aznhe21/actions-preview.nvim",
+		config = function()
+			vim.keymap.set({ "v", "n" }, "ca", require("actions-preview").code_actions)
+		end,
+	},
+	{
+		"soulis-1256/eagle.nvim",
+		config = function()
+			require("eagle").setup()
+		end,
 	},
 }

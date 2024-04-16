@@ -19,6 +19,7 @@ return {
 				graphql = { "prettier" },
 				lua = { "stylua" },
 				python = { "black" },
+				cpp = { "ast-grep" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

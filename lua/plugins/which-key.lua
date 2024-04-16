@@ -16,7 +16,7 @@ return {
 				e = { "<cmd>e $MYVIMRC<CR>", "Editar configuración Neovim" },
 			},
 
-			-- ["ca"] = { "<cmd>Lspsaga code_action<CR>", "Acción de código LSP" },
+			["ca"] = { "<cmd>Lspsaga code_action<CR>", "Acción de código LSP" },
 			h = {
 				name = "+Hydras",
 				g = {

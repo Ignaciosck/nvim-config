@@ -27,7 +27,7 @@ return {
 			end
 
 			require("telescope.pickers")
-				.new({}, {
+				.new({
 					prompt_title = "Harpoon",
 					finder = generate_new_finder(harpoon_files),
 					initial_mode = "normal",
